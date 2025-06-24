@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   web:
-    image: php:8.1-apache
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
     ports:
       - "8080:80"
     volumes:
@@ -14,10 +16,6 @@ services:
       - APACHE_DOCUMENT_ROOT=/var/www/html
     networks:
       - app-network
-    command: >
-      sh -c "a2enmod rewrite &&
-             docker-php-ext-install pdo pdo_mysql &&
-             apache2-foreground"
 
   db:
     image: mysql:8.0
@@ -31,6 +29,14 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ../database/schema:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
     networks:
       - app-network
 
