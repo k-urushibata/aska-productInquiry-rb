@@ -16,7 +16,6 @@
 - **フロントエンド**: HTML, CSS, JavaScript
 - **開発環境**: Docker
 - **本番環境**: XAMPP
-- **AI連携**: Go実装MCPサーバー（github-mcp-server）
 
 ## プロジェクト構造
 ```
@@ -32,53 +31,27 @@ aska-productInquiry-rb/
 │   ├── schema/          # スキーマ定義
 │   └── data/            # サンプルデータ
 ├── docker/              # Docker設定
-├── mcp/                 # MCP関連ファイル
-│   └── config.yaml      # Go版MCPサーバー用設定ファイル
-├── package.json         # Node.js依存関係（PHPアプリ用）
 └── README.md            # プロジェクト説明
 ```
 
 ## セットアップ
 
-### 1. Goのインストール
-[Go公式ダウンロードページ](https://go.dev/dl/)
+1. 必要な環境（PHP, MySQL, Docker, XAMPPなど）をインストール
+2. `docker-compose.yml` で開発環境を起動（またはXAMPPで手動構築）
+3. `database/schema/create_table.sql` でDBスキーマを作成
+4. `database/data/inventory.csv` などでサンプルデータを投入
+5. `public/index.php` からWebアプリにアクセス
 
-### 2. Go実装MCPサーバーの導入
-```bash
-git clone https://github.com/github/github-mcp-server.git
-cd github-mcp-server
-go build -o github-mcp-server .
-```
-
-### 3. 設定ファイルの作成
-`mcp/config.yaml` を作成し、以下のように記述します：
-```yaml
-github:
-  token: "YOUR_GITHUB_PERSONAL_ACCESS_TOKEN"
-  username: "YOUR_GITHUB_USERNAME"
-server:
-  address: "0.0.0.0:3000"
-```
-
-### 4. サーバーの起動
-```bash
-./github-mcp-server serve --config ../aska-productInquiry-rb/mcp/config.yaml
-```
-
-### 5. 動作確認（リポジトリ作成例）
-```bash
-curl -X POST "http://localhost:3000/github/repos" \
-  -H "Content-Type: application/json" \
-  -d '{"name":"aska-productInquiry-rb","description":"商品在庫管理・検索システム","private":false}'
-```
-
-## トラブルシューティング
-- GitHubトークンには`repo`権限が必要です。
-- サーバー起動時のログやエラーを確認し、必要に応じて設定を調整してください。
-- ポート3000が他のプロセスで使われていないか確認してください。
+## ブランチ戦略・運用方針
+- 本プロジェクトはbranchStrategy.mdに基づき、`master`/`develop`/`feature`/`fix`ブランチで運用します。
+- 詳細は `memory-bank/branchStrategy.md` を参照してください。
 
 ## ライセンス
 MIT License
 
 ## 貢献
-プルリクエストやIssueを歓迎します。 
+プルリクエストやIssueを歓迎します。
+
+---
+
+※ MCPサーバーや外部連携は現状利用していません。今後の開発・運用はbranchStrategy.mdに基づき進めます。 
