@@ -48,11 +48,22 @@ class UploadController {
             return; // スキップ
         }
         
-        // 既存商品のチェック
+        // 商品コードが指定されている場合は、商品コードで既存商品をチェック
+        if ($productCode) {
+            $existingProduct = $this->productModel->findProductByCode($productCode);
+            
+            if ($existingProduct) {
+                // 既存商品 → 在庫を更新
+                $this->stockModel->upsertStock($existingProduct['id'], $quantity);
+                return;
+            }
+        }
+        
+        // 商品コードで見つからない場合は、商品名とメーカー名でチェック
         $existingProduct = $this->productModel->findProductByNameAndMaker($productName, $manufacturerName);
         
         if ($existingProduct) {
-            // 既存 → 在庫を更新
+            // 既存商品 → 在庫を更新
             $this->stockModel->upsertStock($existingProduct['id'], $quantity);
         } else {
             // 新規商品登録
