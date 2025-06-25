@@ -8,6 +8,19 @@ class Product {
         $this->pdo = DatabaseConfig::getConnection();
     }
     
+    // 文字エンコーディングを正規化するメソッド
+    private function normalizeEncoding($data) {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $data[$key] = $this->normalizeEncoding($value);
+            }
+        } elseif (is_string($data)) {
+            // UTF-8として正規化
+            $data = mb_convert_encoding($data, 'UTF-8', 'UTF-8');
+        }
+        return $data;
+    }
+    
     // 商品検索
     public function searchProducts($productName = '', $manufacturerName = '') {
         $sql = "SELECT 
@@ -29,7 +42,8 @@ class Product {
             ':manufacturer_name' => '%' . $manufacturerName . '%'
         ]);
         
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->normalizeEncoding($results);
     }
     
     // 商品登録
@@ -58,7 +72,8 @@ class Product {
             ':maker' => $manufacturerName
         ]);
         
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->normalizeEncoding($result);
     }
 }
 ?> 
