@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 プロジェクトドキュメント
+    url: https://github.com/your-username/aska-productInquiry-rb/tree/main/memory-bank
+    about: プロジェクトの詳細情報や技術仕様を確認できます
+  - name: 🐛 バグ報告
+    url: https://github.com/your-username/aska-productInquiry-rb/issues/new?template=bug-report.md
+    about: バグを発見した場合はこちらから報告してください 

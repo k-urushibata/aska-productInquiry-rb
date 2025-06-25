@@ -17,6 +17,10 @@ switch ($action) {
         require_once '../src/views/upload_csv.php';
         break;
         
+    case 'inquiry':
+        require_once '../src/views/inquiry_form.php';
+        break;
+        
     default:
         // デフォルトは検索画面
         require_once '../src/controllers/InventoryController.php';

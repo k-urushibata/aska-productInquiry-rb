@@ -31,6 +31,8 @@ try {
         .search-form button:hover { background: #0056b3; }
         .error { color: red; margin: 10px 0; }
         img { max-width: 100px; }
+        .btn-inquiry { padding: 6px 12px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer; text-decoration: none; font-size: 12px; }
+        .btn-inquiry:hover { background: #218838; }
     </style>
 </head>
 <body>
@@ -62,6 +64,7 @@ try {
                     <th>メーカ名</th>
                     <th>価格</th>
                     <th>在庫数</th>
+                    <th></th>
                 </tr>
                 <?php foreach ($results as $row): ?>
                     <tr>
@@ -70,6 +73,9 @@ try {
                         <td><?= htmlspecialchars($row['manufacturer_name']) ?></td>
                         <td><?= htmlspecialchars($row['price']) ?> 円</td>
                         <td><?= htmlspecialchars($row['quantity']) ?></td>
+                        <td>
+                            <a href="?action=inquiry&product_code=<?= urlencode($row['product_code']) ?>&product_name=<?= urlencode($row['product_name']) ?>&manufacturer_name=<?= urlencode($row['manufacturer_name']) ?>&price=<?= urlencode($row['price']) ?>&quantity=<?= urlencode($row['quantity']) ?>" class="btn-inquiry">問い合わせ</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </table>
