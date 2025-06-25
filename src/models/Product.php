@@ -60,5 +60,16 @@ class Product {
         
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
+    // 商品コードで既存商品チェック
+    public function findProductByCode($productCode) {
+        $sql = "SELECT id FROM m_product WHERE product_code = :code";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':code' => $productCode
+        ]);
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?> 
